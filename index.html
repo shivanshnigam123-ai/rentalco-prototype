@@ -24,7 +24,7 @@ button:focus-visible,a:focus-visible{outline:3px solid #F5A524;outline-offset:2p
 a{color:var(--p);text-decoration:none}
 
 /* ---------- page around the phone ---------- */
-.stage{min-height:100vh;display:flex;align-items:center;justify-content:center;gap:72px;padding:40px 32px}
+.stage{min-height:100vh;display:flex;align-items:center;justify-content:center;gap:64px;padding:20px 32px}
 .side{max-width:380px}
 .chip{display:inline-block;font-size:11px;font-weight:500;letter-spacing:.06em;color:var(--p);background:#fff;padding:6px 12px;border-radius:100px;margin-bottom:18px}
 .side h1{font-size:34px;line-height:1.15;font-weight:600;margin-bottom:14px;letter-spacing:-.01em}
@@ -577,6 +577,11 @@ function reset(){Object.assign(S,{carted:false,months:3,chair:false,date:null,sl
  sl.addEventListener('touchend',e=>{if(x0===null)return;const dx=e.changedTouches[0].clientX-x0;if(Math.abs(dx)>40)set(i+(dx<0?1:-1));x0=null});
  sl.addEventListener('click',()=>set(i+1));
 })();
+// fit the phone to any desktop window height
+function fit(){const st=document.querySelector('.stage');
+  if(window.innerWidth<=860){st.style.zoom='';return}
+  const z=Math.min(1,window.innerHeight/852);st.style.zoom=z.toFixed(3);}
+window.addEventListener('resize',fit);fit();
 render();
 </script>
 </body>
