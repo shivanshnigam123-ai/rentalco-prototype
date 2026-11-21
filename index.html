@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>RentalCo · Rent a desk + chair (prototype)</title>
+<meta name="description" content="Clickable prototype for the Cityfurnish UI/UX assignment by Shivansh Sharan Nigam. RentalCo is a fictional brand.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --p:#4A36B3;--pd:#3A27A0;--tint:#F0EAFF;
+  --tx:#1F1F23;--tx2:#55555C;--mut:#7A7A82;
+  --bg:#F3F4F8;--line:#E8E8EC;--page:#E9E7F1;
+  --ok:#0F6B46;--okt:#E8F5EE;--err:#B42318;--errt:#FDEEEC;--star:#118C4F;--amber:#8A5A00;--ambt:#FFF4E0;
+}
+[hidden]{display:none!important}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{font-family:Outfit,system-ui,sans-serif;color:var(--tx);background:var(--page);-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+button:focus-visible,a:focus-visible{outline:3px solid #F5A524;outline-offset:2px;border-radius:8px}
+a{color:var(--p);text-decoration:none}
+
+/* ---------- page around the phone ---------- */
+.stage{min-height:100vh;display:flex;align-items:center;justify-content:center;gap:72px;padding:40px 32px}
+.side{max-width:380px}
+.chip{display:inline-block;font-size:11px;font-weight:500;letter-spacing:.06em;color:var(--p);background:#fff;padding:6px 12px;border-radius:100px;margin-bottom:18px}
+.side h1{font-size:34px;line-height:1.15;font-weight:600;margin-bottom:14px;letter-spacing:-.01em}
+.side p{font-size:15px;line-height:1.55;color:var(--tx2);margin-bottom:22px}
+.try{background:#fff;border-radius:16px;padding:18px 18px 8px;margin-bottom:18px}
+.try h2{font-size:14px;font-weight:600;margin-bottom:10px}
+.try li{list-style:none;display:flex;gap:10px;align-items:flex-start;font-size:13px;line-height:1.45;color:var(--tx2);padding-bottom:10px}
+.try li b{font-weight:500;color:var(--tx)}
+.try .n{flex:0 0 20px;height:20px;border-radius:10px;background:var(--tint);color:var(--p);font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center;margin-top:1px}
+.try li.done .n{background:var(--ok);color:#fff}
+.links{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+.lnk{font-size:13px;font-weight:500;padding:10px 16px;border-radius:100px;background:#fff;color:var(--p);border:1px solid #D9D6E6}
+.lnk.solid{background:var(--p);color:#fff;border-color:var(--p)}
+.fine{font-size:11px;color:var(--mut);line-height:1.5}
+
+/* ---------- phone ---------- */
+.phone{width:375px;height:812px;background:var(--bg);border-radius:40px;overflow:hidden;position:relative;flex-shrink:0;
+  box-shadow:0 0 0 1px #D9D6E6,0 24px 60px rgba(46,33,115,.16);display:flex;flex-direction:column}
+.screen{position:absolute;inset:0;display:flex;flex-direction:column;background:var(--bg);transition:transform .32s cubic-bezier(.2,.8,.2,1),opacity .25s}
+.screen.hidden{transform:translateX(30px);opacity:0;pointer-events:none;visibility:hidden}
+.top{background:#fff;flex-shrink:0}
+.status{display:flex;justify-content:space-between;padding:14px 24px 8px;font-size:14px;font-weight:500}
+.nav{display:flex;align-items:center;gap:8px;padding:2px 12px 12px;min-height:46px}
+.nav h2{font-size:18px;font-weight:600;flex:1}
+.nav .icons{margin-left:auto;display:flex;gap:6px}
+.ib{width:40px;height:40px;display:flex;align-items:center;justify-content:center;border-radius:12px;position:relative}
+.ib:active{background:var(--bg)}
+.badge{position:absolute;top:4px;right:2px;min-width:16px;height:16px;border-radius:8px;background:var(--p);color:#fff;font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center;padding:0 4px}
+.nav .r{font-size:12px;color:var(--mut)}
+.scroll{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.scroll::-webkit-scrollbar{display:none}
+.pad{padding:12px;display:flex;flex-direction:column;gap:12px}
+.bar{background:#fff;border-top:1px solid var(--line);padding:12px 16px 28px;display:flex;align-items:center;gap:16px;flex-shrink:0}
+.bar .tot b{display:block;font-size:18px;font-weight:600;line-height:1.2}
+.bar .tot small{font-size:11px;color:var(--mut)}
+.bar.col{flex-direction:column;gap:8px}
+.bar.col .btn{flex:none}
+.btn{flex:1;height:52px;border-radius:12px;background:var(--p);color:#fff;font-size:16px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:8px;width:100%;transition:background .15s,transform .1s}
+.btn:active{background:var(--pd);transform:scale(.99)}
+.btn[disabled]{background:#BDB6E2;cursor:not-allowed}
+
+.card{background:#fff;border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:12px}
+.card.hl{box-shadow:inset 0 0 0 1.5px var(--p)}
+.ch{display:flex;justify-content:space-between;align-items:center}
+.ch h3{font-size:16px;font-weight:600}
+.link{font-size:11px;font-weight:500;color:var(--p)}
+.row{display:flex;align-items:center;gap:12px}
+.between{justify-content:space-between}
+.grow{flex:1;min-width:0}
+.t1{font-size:14px;font-weight:500}
+.t2{font-size:14px;color:var(--tx2)}
+.cap{font-size:12px;color:var(--tx2)}
+.csm{font-size:11px;color:var(--mut);line-height:1.4}
+.div{height:1px;background:var(--line)}
+.pill{display:inline-flex;align-items:center;font-size:10px;font-weight:500;line-height:14px;padding:1px 7px;border-radius:100px;white-space:nowrap}
+.pM{background:var(--tint);color:var(--p)}.pR{background:var(--okt);color:var(--ok)}.pO{background:var(--bg);color:var(--tx2);box-shadow:inset 0 0 0 1px var(--line)}
+.thumb{flex:0 0 auto;border-radius:12px;background:var(--tint);display:flex;align-items:center;justify-content:center}
+.iconc{flex:none;width:40px;height:40px;border-radius:20px;display:flex;align-items:center;justify-content:center;background:var(--tint)}
+
+/* PDP */
+.gallery{background:var(--tint);height:220px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;position:relative;overflow:hidden}
+.slides{display:flex;width:100%;transition:transform .35s ease}
+.slides>div{flex:0 0 100%;display:flex;align-items:center;justify-content:center;height:180px}
+.dots{display:flex;gap:6px}
+.dots i{width:6px;height:6px;border-radius:3px;background:#C9C2EA;transition:width .2s,background .2s;cursor:pointer}
+.dots i.on{width:16px;background:var(--p)}
+.info{background:#fff;padding:16px;display:flex;flex-direction:column;gap:12px}
+.info h1{font-size:22px;font-weight:600;line-height:1.25}
+.rate{display:inline-flex;align-items:center;gap:3px;background:var(--star);color:#fff;font-size:11px;font-weight:500;padding:2px 6px;border-radius:6px}
+.price{display:flex;align-items:baseline;gap:4px}
+.price b{font-size:28px;font-weight:600;line-height:1.2}
+.price span{font-size:14px;color:var(--mut)}
+.extra{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--tx2)}
+.stepper{display:flex;align-items:center;border:1px solid var(--line);border-radius:10px;background:#fff}
+.stepper button{width:40px;height:40px;font-size:20px;font-weight:500;color:var(--p);display:flex;align-items:center;justify-content:center}
+.stepper button[disabled]{color:#C4C4CC;cursor:not-allowed}
+.stepper span{width:84px;text-align:center;font-size:14px;font-weight:500}
+.strip{display:grid;grid-template-columns:repeat(3,1fr)}
+.strip>div{display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center}
+.strip>div+div{border-left:1px solid var(--line)}
+.strip b{font-size:11px;font-weight:500;display:block}
+.add{padding:8px 18px;border-radius:8px;background:var(--tint);box-shadow:inset 0 0 0 1px var(--p);color:var(--p);font-size:11px;font-weight:600;letter-spacing:.02em;transition:all .2s}
+.add.on{background:var(--ok);box-shadow:none;color:#fff}
+.note{background:var(--okt);color:var(--ok);font-size:11px;padding:8px 10px;border-radius:10px}
+.spec{display:flex;padding:10px 0;border-top:1px solid var(--line);font-size:12px}
+.spec span:first-child{width:110px;color:var(--mut)}
+.desc{font-size:13px;line-height:1.45;color:var(--tx2)}
+.desc.clamp{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.faq{border-top:1px solid var(--line)}
+.faq button{width:100%;display:flex;justify-content:space-between;align-items:center;padding:12px 0;font-size:14px;text-align:left;gap:8px}
+.faq svg{transition:transform .2s;flex:0 0 auto}
+.faq.open svg{transform:rotate(180deg)}
+.faq p{display:none;font-size:12px;line-height:1.5;color:var(--tx2);padding:0 0 12px}
+.faq.open p{display:block}
+.bars{flex:1;display:flex;flex-direction:column;gap:4px}
+.bars div{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--mut)}
+.bars i{flex:1;height:6px;border-radius:3px;background:var(--bg);position:relative;overflow:hidden}
+.bars i::after{content:"";position:absolute;inset:0;width:var(--w);background:var(--star);border-radius:3px}
+.bars div.low i::after{background:#E0A100}
+.rev{display:flex;flex-direction:column;gap:4px;border-top:1px solid var(--line);padding-top:12px}
+
+/* cart + review */
+.toast{background:var(--okt);color:var(--ok);font-size:11px;font-weight:500;padding:10px 12px;border-radius:12px;display:flex;gap:8px;align-items:center}
+.split{display:flex;gap:2px;height:6px}
+.split i{border-radius:3px;transition:flex .3s}
+.legend{display:flex;justify-content:space-between;font-size:11px;color:var(--tx2)}
+.legend b{color:var(--ok);font-weight:500}
+.pay h3{font-size:16px;font-weight:600}
+.amt{font-size:22px;font-weight:600}
+.depnote{background:var(--okt);color:var(--ok);font-size:11px;font-weight:500;padding:9px 12px;border-radius:10px;display:flex;gap:8px;align-items:center}
+.bill{display:none;flex-direction:column;gap:8px}
+.bill.open{display:flex}
+.bill .row{gap:6px}
+.step{display:flex;gap:10px;align-items:flex-start}
+.step .dot{width:8px;height:8px;border-radius:4px;margin-top:6px;flex:0 0 auto}
+
+/* date */
+.err{background:var(--errt);border-radius:12px;padding:12px;display:none;gap:10px;align-items:flex-start;animation:pop .3s ease}
+.err.show{display:flex}
+@keyframes pop{from{transform:translateY(-6px);opacity:0}to{transform:none;opacity:1}}
+.dates{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.date{height:64px;border-radius:12px;background:#fff;box-shadow:inset 0 0 0 1px var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;transition:all .15s}
+.date small{font-size:11px;color:var(--tx2)}
+.date b{font-size:14px;font-weight:500}
+.date em{font-style:normal;font-size:10px;font-weight:500;color:var(--mut)}
+.date.sel{background:var(--tint);box-shadow:inset 0 0 0 1.5px var(--p)}
+.date.sel b,.date.sel em{color:var(--p)}
+.date.full{background:var(--bg);cursor:not-allowed}
+.date.full b{color:var(--mut);text-decoration:line-through}
+.date.full em{color:var(--err)}
+.slots{display:flex;gap:8px}
+.slot{padding:10px 16px;border-radius:100px;box-shadow:inset 0 0 0 1px var(--line);font-size:11px;font-weight:500;color:var(--tx2);background:#fff}
+.slot.sel{background:var(--tint);box-shadow:inset 0 0 0 1.5px var(--p);color:var(--p)}
+.week{font-size:11px;text-align:center}
+
+/* sheet */
+.scrim{position:absolute;inset:0;background:rgba(26,20,51,.45);opacity:0;pointer-events:none;transition:opacity .25s;z-index:5}
+.scrim.on{opacity:1;pointer-events:auto}
+.sheet{position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:24px 24px 0 0;padding:12px 20px 28px;transform:translateY(105%);transition:transform .3s cubic-bezier(.2,.8,.2,1);z-index:6;display:flex;flex-direction:column;gap:16px}
+.sheet.on{transform:none}
+.grab{width:40px;height:4px;border-radius:2px;background:var(--line);align-self:center}
+
+/* processing + success */
+.spin{width:44px;height:44px;border-radius:50%;border:3px solid var(--tint);border-top-color:var(--p);animation:sp 0.9s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.center{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center;padding:24px}
+.okc{width:72px;height:72px;border-radius:36px;background:var(--okt);display:flex;align-items:center;justify-content:center;animation:pop .4s ease}
+
+@media (max-width:860px){
+  body{background:var(--bg)}
+  .stage{padding:0;display:block}
+  .side{display:none}
+  .phone{width:100%;height:100vh;height:100dvh;border-radius:0;box-shadow:none}
+  .status{display:none}
+  .nav{padding-top:10px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div class="stage">
+  <aside class="side">
+    <span class="chip">CLICKABLE PROTOTYPE · RENTALCO</span>
+    <h1>Rent a desk + chair without money surprises</h1>
+    <p>Imagine you just moved to Gurugram and need a desk and a chair this week. Try the flow like a real shopper. Every rupee says if it's monthly, refundable or one-time.</p>
+    <div class="try">
+      <h2>Try this</h2>
+      <ol>
+        <li id="g1"><span class="n">1</span><span><b>Change the rental period</b> on the desk</span></li>
+        <li id="g2"><span class="n">2</span><span><b>Add the chair</b> from "Complete your setup" or the cart</span></li>
+        <li id="g3"><span class="n">3</span><span><b>Pick Thu, 26 Nov</b>… it just got full (the failure state)</span></li>
+        <li id="g4"><span class="n">4</span><span><b>Open the bill</b> on review, then pay</span></li>
+      </ol>
+    </div>
+    <div class="links">
+      <a class="lnk solid" href="https://www.figma.com/design/IrrJRcL62q91h6nvjOKjLm/?node-id=8-3" target="_blank" rel="noopener">Figma long scroll ↗</a>
+      <button class="lnk" onclick="reset()">Start again</button>
+    </div>
+    <p class="fine">RentalCo is a fictional brand made for the Cityfurnish UI/UX assignment. Prices come only from the brief. Ratings and reviews are sample content. Designed by Shivansh Sharan Nigam.</p>
+  </aside>
+
+  <main class="phone" aria-label="RentalCo prototype">
+
+    <!-- ============ 1. PRODUCT ============ -->
+    <section class="screen" id="s-pdp">
+      <div class="top">
+        <div class="status"><span>9:41</span><span>●●● ▮</span></div>
+        <div class="nav">
+          <button class="ib" aria-label="Back"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="#1F1F23" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          <div class="icons">
+            <button class="ib" aria-label="Search"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="6.5" stroke="#1F1F23" stroke-width="1.8"/><path d="M16 16l4 4" stroke="#1F1F23" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+            <button class="ib" aria-label="Wishlist" id="heart" onclick="this.classList.toggle('on');this.querySelector('path').setAttribute('fill',this.classList.contains('on')?'#E5484D':'none');this.querySelector('path').setAttribute('stroke',this.classList.contains('on')?'#E5484D':'#1F1F23')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z" stroke="#1F1F23" stroke-width="1.8" stroke-linejoin="round"/></svg></button>
+            <button class="ib" aria-label="Cart" onclick="toCart()"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 4h2.5l2.2 11h10.6L20.5 8H6.5" stroke="#1F1F23" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="9" cy="19" r="1.5" fill="#1F1F23"/><circle cx="17" cy="19" r="1.5" fill="#1F1F23"/></svg><span class="badge" id="cartBadge" hidden>0</span></button>
+          </div>
+        </div>
+      </div>
+      <div class="scroll" id="pdpScroll">
+        <div class="gallery" aria-label="Product photos">
+          <div class="slides" id="slides">
+            <div><svg width="170" height="170" viewBox="0 0 32 32" fill="none"><rect x="3" y="11" width="26" height="2.6" rx="1" fill="#8B6B4E"/><rect x="5" y="13.6" width="2" height="12" fill="#5C4634"/><rect x="25" y="13.6" width="2" height="12" fill="#5C4634"/><rect x="17.5" y="13.6" width="7" height="4.6" rx=".8" fill="#A3876C"/><rect x="7" y="7" width="5" height="4" rx=".6" fill="#4A36B3"/></svg></div>
+            <div><svg width="170" height="170" viewBox="0 0 32 32" fill="none"><rect x="4" y="12" width="24" height="2.6" rx="1" fill="#8B6B4E"/><rect x="6" y="14.6" width="2" height="11" fill="#5C4634"/><rect x="24" y="14.6" width="2" height="11" fill="#5C4634"/><rect x="16" y="14.6" width="8" height="5" rx=".8" fill="#A3876C"/><circle cx="20" cy="17" r=".6" fill="#5C4634"/></svg></div>
+            <div><svg width="170" height="170" viewBox="0 0 32 32" fill="none"><rect x="3" y="11" width="26" height="2.6" rx="1" fill="#8B6B4E"/><rect x="5" y="13.6" width="2" height="12" fill="#5C4634"/><rect x="25" y="13.6" width="2" height="12" fill="#5C4634"/><rect x="9" y="5" width="9" height="6" rx=".6" fill="#302F30"/><rect x="13" y="11" width="1" height=".1" fill="#302F30"/><rect x="21" y="7" width="1.2" height="4" fill="#4A36B3"/><circle cx="21.6" cy="6.6" r="1.4" fill="#F5C451"/></svg></div>
+            <div><svg width="170" height="170" viewBox="0 0 32 32" fill="none"><rect x="6" y="9" width="20" height="14" rx="1.5" fill="#fff" stroke="#C9C2EA"/><path d="M6 13h20M12 9v14" stroke="#C9C2EA"/><text x="16" y="27.5" font-size="2.4" text-anchor="middle" fill="#4A36B3" font-family="Outfit">120 × 60 × 75 cm</text></svg></div>
+          </div>
+          <div class="dots" id="dots"><i class="on"></i><i></i><i></i><i></i></div>
+        </div>
+        <div class="info">
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <span><span class="pill pO">Delivery in 5 days</span></span>
+            <h1>Study desk with side drawer</h1>
+            <div class="row" style="gap:8px"><span class="rate">4.3 ★</span><span class="csm">218 ratings · 64 reviews</span></div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:4px">
+            <div class="price"><b>₹499</b><span>/month</span></div>
+            <div class="extra">+ ₹999 deposit <span class="pill pR">Refundable</span></div>
+            <div class="extra">+ ₹299 delivery, once per order <span class="pill pO">One-time</span></div>
+          </div>
+        </div>
+        <div class="pad">
+          <div class="card" style="gap:10px">
+            <div class="row between">
+              <div><div class="t1">Rent for</div><div class="csm" id="pdpTill">Till 26 Feb 2027</div></div>
+              <div class="stepper" role="group" aria-label="Rental period">
+                <button class="mMinus" aria-label="One month less" onclick="setMonths(-1)">−</button>
+                <span class="mVal" aria-live="polite">3 months</span>
+                <button aria-label="One month more" onclick="setMonths(1)">+</button>
+              </div>
+            </div>
+            <div class="csm">3 months minimum. Same price every month, extend anytime.</div>
+          </div>
+          <div class="card" style="gap:14px">
+            <div class="ch"><h3>How renting works</h3></div>
+            <div class="strip">
+              <div><span class="iconc"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="6" width="18" height="13" rx="2.5" stroke="#4A36B3" stroke-width="1.8"/><path d="M3 10h18" stroke="#4A36B3" stroke-width="1.8"/><circle cx="16.5" cy="14.5" r="1.3" fill="#4A36B3"/></svg></span><span><b>Pay to start</b><span class="csm">Rent + deposit</span></span></div>
+              <div><span class="iconc"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3.5" y="5" width="17" height="15" rx="2.5" stroke="#4A36B3" stroke-width="1.8"/><path d="M3.5 10h17M8 3v4M16 3v4" stroke="#4A36B3" stroke-width="1.8" stroke-linecap="round"/></svg></span><span><b>Monthly rent</b><span class="csm">From month 2</span></span></div>
+              <div><span class="iconc" style="background:var(--okt)"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 12a9 9 0 1 0 2.6-6.4" stroke="#0F6B46" stroke-width="1.8" stroke-linecap="round"/><path d="M3 4v5h5" stroke="#0F6B46" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span><b>Deposit back</b><span class="csm">After return</span></span></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="row between">
+              <div class="row" style="gap:10px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z" stroke="#4A36B3" stroke-width="1.8"/><circle cx="12" cy="10" r="2.3" stroke="#4A36B3" stroke-width="1.8"/></svg>
+                <div><div class="t1">Deliver to Sector 45, Gurugram</div><div class="csm">Earliest Thu, 26 Nov · 5 days from today</div></div></div>
+              <span class="link">Change</span>
+            </div>
+            <div class="div"></div>
+            <div class="row" style="gap:10px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M2.5 6.5h11v9h-11zM13.5 9.5h4l3 3v3h-7z" stroke="#4A36B3" stroke-width="1.8" stroke-linejoin="round"/><circle cx="6.5" cy="17.5" r="1.8" fill="#fff" stroke="#4A36B3" stroke-width="1.8"/><circle cx="16.5" cy="17.5" r="1.8" fill="#fff" stroke="#4A36B3" stroke-width="1.8"/></svg><span class="cap">One ₹299 delivery covers everything in your order</span></div>
+          </div>
+          <div class="card">
+            <div class="ch"><h3>Complete your setup</h3><span class="link">See all</span></div>
+            <div class="row">
+              <span class="thumb" style="width:64px;height:64px"><svg width="44" height="44" viewBox="0 0 32 32" fill="none"><rect x="10" y="3" width="12" height="13" rx="3" fill="#3A27A0"/><rect x="8" y="17" width="16" height="4" rx="2" fill="#4A36B3"/><rect x="15" y="21" width="2" height="6" fill="#302F30"/><rect x="9" y="27" width="14" height="2" rx="1" fill="#302F30"/></svg></span>
+              <div class="grow"><div class="t1">Work chair</div><div class="csm">Ergonomic · adjustable height</div><div><span class="t1">₹399</span> <span class="csm">/month</span></div></div>
+              <button class="add" id="pdpAdd" onclick="toggleChair()">ADD</button>
+            </div>
+            <div class="note">Same delivery, same date. No extra delivery fee.</div>
+          </div>
+          <div class="card" style="gap:0">
+            <div class="ch" style="padding-bottom:8px"><h3>Product details</h3></div>
+            <div class="spec"><span>Size</span><span>120 × 60 × 75 cm</span></div>
+            <div class="spec"><span>Material</span><span>Engineered wood</span></div>
+            <div class="spec"><span>Colour</span><span>Walnut brown</span></div>
+            <div class="spec"><span>Storage</span><span>1 side drawer</span></div>
+            <div class="spec"><span>Holds up to</span><span>40 kg</span></div>
+          </div>
+          <div class="card" style="gap:8px">
+            <div class="ch"><h3>Description</h3></div>
+            <p class="desc clamp" id="desc">A compact work desk made for small flats. Room for a laptop, a monitor and a lamp, with a side drawer for chargers and notebooks. Cleaned and quality-checked before every delivery, so it shows up ready to use. Fits neatly against a wall or next to your bed.</p>
+            <button class="link" style="align-self:flex-start" onclick="const d=document.getElementById('desc');d.classList.toggle('clamp');this.textContent=d.classList.contains('clamp')?'Read more':'Read less'">Read more</button>
+          </div>
+          <div class="card" style="gap:0">
+            <div class="ch" style="padding-bottom:4px"><h3>Good to know</h3></div>
+            <div class="faq"><button onclick="faq(this)">When do I get my deposit back?<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="#7A7A82" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><p>After you return the items, we do a quick damage check. Once it's done, your full deposit comes back.</p></div>
+            <div class="faq"><button onclick="faq(this)">Can I extend after 3 months?<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="#7A7A82" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><p>Yes. Same price every month, no matter how long you keep it.</p></div>
+            <div class="faq"><button onclick="faq(this)">What does the damage check cover?<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="#7A7A82" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><p>We check the items when we pick them up. In this prototype, the rules of the check are fictional.</p></div>
+            <div class="faq"><button onclick="faq(this)">What if I return it early?<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="#7A7A82" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><p>3 months is the minimum rental period, so plan for at least that.</p></div>
+          </div>
+          <div class="card" style="gap:14px">
+            <div class="ch"><h3>Ratings & reviews</h3><span class="link">See all</span></div>
+            <div class="row" style="gap:16px">
+              <div style="text-align:center"><div style="font-size:28px;font-weight:600">4.3 <span style="color:var(--star);font-size:18px">★</span></div><div class="csm">218 ratings</div></div>
+              <div class="bars">
+                <div>5★<i style="--w:68%"></i></div><div>4★<i style="--w:20%"></i></div><div>3★<i style="--w:7%"></i></div><div class="low">2★<i style="--w:3%"></i></div><div class="low">1★<i style="--w:2%"></i></div>
+              </div>
+            </div>
+            <div class="rev"><div class="row" style="gap:8px"><span class="rate">5 ★</span><span class="t1">Sturdy and arrived on time</span></div><div class="cap">Came on the date I picked. Drawer is handy, no wobble at all.</div><div class="csm">Riya · Gurugram · 2 weeks ago</div></div>
+            <div class="rev"><div class="row" style="gap:8px"><span class="rate">4 ★</span><span class="t1">Good for a small room</span></div><div class="cap">Fits perfectly next to my bed. Got my deposit back without any fuss.</div><div class="csm">Aman · Noida · 1 month ago</div></div>
+          </div>
+          <p class="csm" style="text-align:center;padding:0 0 8px">Ratings and reviews are sample content.</p>
+        </div>
+      </div>
+      <div class="bar">
+        <div class="tot"><b id="pdpToday">₹1,797</b><small id="pdpTodayL">to start today</small></div>
+        <button class="btn" id="pdpBtn" onclick="toCart(true)">Add to cart</button>
+      </div>
+    </section>
+
+    <!-- ============ 2. CART ============ -->
+    <section class="screen hidden" id="s-cart">
+      <div class="top">
+        <div class="status"><span>9:41</span><span>●●● ▮</span></div>
+        <div class="nav"><button class="ib" aria-label="Back" onclick="go('pdp')"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="#1F1F23" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h2>Your cart</h2><span class="r" id="cartCount">1 item</span></div>
+      </div>
+      <div class="scroll"><div class="pad">
+        <div class="toast" id="cartToast" hidden role="status"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#0F6B46" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Chair added. Still one delivery, one ₹299 fee.</span></div>
+        <div class="card" style="gap:14px">
+          <div class="row">
+            <span class="thumb" style="width:56px;height:56px"><svg width="38" height="38" viewBox="0 0 32 32" fill="none"><rect x="3" y="11" width="26" height="2.6" rx="1" fill="#8B6B4E"/><rect x="5" y="13.6" width="2" height="12" fill="#5C4634"/><rect x="25" y="13.6" width="2" height="12" fill="#5C4634"/><rect x="17.5" y="13.6" width="7" height="4.6" rx=".8" fill="#A3876C"/><rect x="7" y="7" width="5" height="4" rx=".6" fill="#4A36B3"/></svg></span>
+            <div class="grow"><div class="t1">Study desk with side drawer</div><div class="csm"><span class="mTxt">3 months</span> · <span class="tillShort">till 26 Feb</span></div></div>
+            <div><span class="t1">₹499</span><span class="csm">/mo</span></div>
+          </div>
+          <div class="row" id="cartChair" hidden>
+            <span class="thumb" style="width:56px;height:56px"><svg width="38" height="38" viewBox="0 0 32 32" fill="none"><rect x="10" y="3" width="12" height="13" rx="3" fill="#3A27A0"/><rect x="8" y="17" width="16" height="4" rx="2" fill="#4A36B3"/><rect x="15" y="21" width="2" height="6" fill="#302F30"/><rect x="9" y="27" width="14" height="2" rx="1" fill="#302F30"/></svg></span>
+            <div class="grow"><div class="t1">Work chair</div><div class="csm"><span class="mTxt">3 months</span> · <span class="tillShort">till 26 Feb</span> · <button class="link" onclick="toggleChair()">Remove</button></div></div>
+            <div><span class="t1">₹399</span><span class="csm">/mo</span></div>
+          </div>
+          <div class="div"></div>
+          <div class="row between"><div><div class="t1">Rent for <span class="mTxt">3 months</span></div><div class="csm">Minimum period · extend anytime</div></div><button class="link" onclick="sheet(true)">Change</button></div>
+        </div>
+        <div class="card" id="cartSuggest">
+          <div class="ch"><h3>Complete your setup</h3></div>
+          <div class="row">
+            <span class="thumb" style="width:56px;height:56px"><svg width="38" height="38" viewBox="0 0 32 32" fill="none"><rect x="10" y="3" width="12" height="13" rx="3" fill="#3A27A0"/><rect x="8" y="17" width="16" height="4" rx="2" fill="#4A36B3"/><rect x="15" y="21" width="2" height="6" fill="#302F30"/><rect x="9" y="27" width="14" height="2" rx="1" fill="#302F30"/></svg></span>
+            <div class="grow"><div class="t1">Work chair</div><div class="csm">₹399/month · same delivery, no extra fee</div></div>
+            <button class="add" onclick="toggleChair()">ADD</button>
+          </div>
+        </div>
+        <div class="card hl pay">
+          <div class="row between"><div><h3>Pay today</h3><div class="csm">Rent, deposit & delivery</div></div><span class="amt" id="cartToday">₹1,797</span></div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <div class="split"><i id="spA" style="flex:44;background:var(--p)"></i><i id="spB" style="flex:56;background:var(--ok)"></i></div>
+            <div class="legend"><span>Rent + delivery</span><b>Deposit · comes back</b></div>
+          </div>
+          <div class="div"></div>
+          <div class="row between"><span class="t2">Then every month</span><span class="t1" id="cartMonthly">₹499/mo</span></div>
+        </div>
+        <p class="csm" style="text-align:center">Nothing is charged until the last step.</p>
+      </div></div>
+      <div class="bar">
+        <div class="tot"><b id="cartTodayBar">₹1,797</b><small>to pay today</small></div>
+        <button class="btn" onclick="go('date')">Choose delivery date</button>
+      </div>
+      <div class="scrim" id="scrim" onclick="sheet(false)"></div>
+      <div class="sheet" id="sheet" role="dialog" aria-label="Change rental period">
+        <span class="grab"></span>
+        <div><div style="font-size:18px;font-weight:600">How long do you need it?</div><div class="csm" style="margin-top:4px">Any length from 3 months. The monthly price stays the same.</div></div>
+        <div class="row between" style="border:1px solid var(--line);border-radius:14px;padding:8px">
+          <div class="stepper" style="border:0;width:100%;justify-content:space-between">
+            <button class="mMinus" aria-label="One month less" onclick="setMonths(-1)">−</button>
+            <div style="text-align:center"><div class="mVal" style="font-size:18px;font-weight:600">3 months</div><div class="csm tillLong">till 26 Feb 2027</div></div>
+            <button aria-label="One month more" onclick="setMonths(1)">+</button>
+          </div>
+        </div>
+        <button class="btn" onclick="sheet(false)">Done</button>
+      </div>
+    </section>
+
+    <!-- ============ 3. DATE ============ -->
+    <section class="screen hidden" id="s-date">
+      <div class="top">
+        <div class="status"><span>9:41</span><span>●●● ▮</span></div>
+        <div class="nav"><button class="ib" aria-label="Back" onclick="go('cart')"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="#1F1F23" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h2>Delivery date</h2></div>
+      </div>
+      <div class="scroll"><div class="pad" style="padding-top:16px">
+        <div style="padding:0 4px"><div style="font-size:22px;font-weight:600">When should we come?</div><div class="desc" id="dateSub" style="margin-top:4px">Earliest is 5 days from today.</div></div>
+        <div class="err" id="err" role="alert"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="flex:0 0 auto"><circle cx="12" cy="12" r="10" fill="#B42318"/><path d="M12 7v6" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/><circle cx="12" cy="16.8" r="1.4" fill="#fff"/></svg><div><div class="t1" style="color:var(--err)">Thu, 26 Nov just got full</div><div class="csm" style="color:var(--tx2)">We moved you to Fri, 27 Nov. Your cart and price stay the same.</div></div></div>
+        <div class="card"><div class="t1">Pick a day</div><div class="dates" id="dates"></div></div>
+        <div class="card"><div class="t1">Time slot</div><div class="slots"><button class="slot sel" onclick="slot(this)">9am – 1pm</button><button class="slot" onclick="slot(this)">2pm – 6pm</button></div></div>
+      </div></div>
+      <div class="bar col">
+        <div class="week" id="week" style="color:var(--mut)">Pick a day to continue</div>
+        <button class="btn" id="dateBtn" disabled onclick="go('review')">Pick a day</button>
+      </div>
+    </section>
+
+    <!-- ============ 4. REVIEW ============ -->
+    <section class="screen hidden" id="s-review">
+      <div class="top">
+        <div class="status"><span>9:41</span><span>●●● ▮</span></div>
+        <div class="nav"><button class="ib" aria-label="Back" onclick="go('date')"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="#1F1F23" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h2>Review & pay</h2></div>
+      </div>
+      <div class="scroll"><div class="pad" style="gap:10px">
+        <div class="card"><div class="row">
+          <span class="iconc"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M2.5 6.5h11v9h-11zM13.5 9.5h4l3 3v3h-7z" stroke="#4A36B3" stroke-width="1.8" stroke-linejoin="round"/><circle cx="6.5" cy="17.5" r="1.8" fill="#fff" stroke="#4A36B3" stroke-width="1.8"/><circle cx="16.5" cy="17.5" r="1.8" fill="#fff" stroke="#4A36B3" stroke-width="1.8"/></svg></span>
+          <div class="grow"><div class="t1" id="rvDate">Fri, 27 Nov · 9am – 1pm</div><div class="csm" id="rvDateSub">Sector 45, Gurugram</div></div>
+          <button class="link" onclick="go('date')">Change</button>
+        </div></div>
+        <div class="card" id="rvItems"></div>
+        <div class="card hl pay">
+          <div class="row between"><div><h3>Pay today</h3><div class="csm">Rent, deposit & delivery</div></div><span class="amt" id="rvToday">₹2,995</span></div>
+          <div class="depnote"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M3 12a9 9 0 1 0 2.6-6.4" stroke="#0F6B46" stroke-width="2" stroke-linecap="round"/><path d="M3 4v5h5" stroke="#0F6B46" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span id="rvDep">₹1,798 is deposit. You get it back.</span></div>
+          <div class="bill" id="bill">
+            <div class="row between"><span class="row" style="gap:6px"><span class="cap">First month rent</span><span class="pill pM">Monthly</span></span><span class="t1" id="bRent">₹898</span></div>
+            <div class="row between"><span class="row" style="gap:6px"><span class="cap">Deposits</span><span class="pill pR">Refundable</span></span><span class="t1" id="bDep">₹1,798</span></div>
+            <div class="row between"><span class="row" style="gap:6px"><span class="cap">Delivery</span><span class="pill pO">One-time</span></span><span class="t1">₹299</span></div>
+          </div>
+          <button class="link row" style="gap:4px;align-self:flex-start" id="billBtn" onclick="toggleBill()" aria-expanded="false"><span>View bill details</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" id="billChev" style="transition:transform .2s"><path d="M6 9l6 6 6-6" stroke="#4A36B3" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        </div>
+        <div class="card">
+          <div class="t1">After today</div>
+          <div class="step"><span class="dot" style="background:var(--p)"></span><div class="grow"><div class="t2" style="color:var(--tx)" id="rvFrom">From 27 Dec</div><div class="csm" id="rvFromSub">Auto-charged · 2 more months</div></div><span class="t1" id="rvMonthly">₹898/mo</span></div>
+          <div class="step"><span class="dot" style="background:var(--ok)"></span><div class="grow"><div class="t2" style="color:var(--tx)">When you return</div><div class="csm">After a quick damage check</div></div><span class="t1" style="color:var(--ok)">Deposit back</span></div>
+        </div>
+      </div></div>
+      <div class="bar">
+        <div class="tot"><b id="rvTodayBar">₹2,995</b><small>to pay today</small></div>
+        <button class="btn" id="payBtn" onclick="pay()">Pay ₹2,995 <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      </div>
+    </section>
+
+    <!-- ============ 5. PROCESSING ============ -->
+    <section class="screen hidden" id="s-paying">
+      <div class="center"><div class="spin" aria-hidden="true"></div><div class="t1">Confirming your payment…</div><div class="csm">Prototype only. No real money moves.</div></div>
+    </section>
+
+    <!-- ============ 6. DONE ============ -->
+    <section class="screen hidden" id="s-done">
+      <div class="top"><div class="status"><span>9:41</span><span>●●● ▮</span></div></div>
+      <div class="scroll"><div class="pad" style="padding-top:28px">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center;padding:8px 8px 4px">
+          <div class="okc"><svg width="34" height="34" viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#0F6B46" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div style="font-size:22px;font-weight:600">Your setup is on its way</div>
+          <div class="desc" id="doneSub">Arriving Fri, 27 Nov · 9am – 1pm</div>
+        </div>
+        <div class="card">
+          <div class="row between"><span class="t2">Paid today</span><span class="t1" id="dToday">₹2,995</span></div>
+          <div class="row between"><span class="t2" id="dFrom">₹898 every month from 27 Dec</span><span class="pill pM">Monthly</span></div>
+          <div class="row between"><span class="t2" id="dBack">₹1,798 back after you return</span><span class="pill pR">Refundable</span></div>
+        </div>
+        <div class="note" style="text-align:center">We'll remind you 3 days before every rent date.</div>
+      </div></div>
+      <div class="bar"><button class="btn" onclick="reset()">Start again</button></div>
+    </section>
+
+  </main>
+</div>
+
+<script>
+const S={carted:false,months:3,chair:false,date:null,slot:'9am – 1pm',full:false,bill:false};
+const DESK={r:499,d:999},CHAIR={r:399,d:799},DEL=299;
+const inr=n=>'₹'+n.toLocaleString('en-IN');
+const MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const DAYS=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+const DATES=[new Date(2026,10,26),new Date(2026,10,27),new Date(2026,10,28),new Date(2026,10,30),new Date(2026,11,1),new Date(2026,11,2)];
+const WEEK_END=new Date(2026,10,28);
+const $=id=>document.getElementById(id);
+const rent=()=>DESK.r+(S.chair?CHAIR.r:0);
+const dep=()=>DESK.d+(S.chair?CHAIR.d:0);
+const today=()=>rent()+dep()+DEL;
+const addM=(d,m)=>{const x=new Date(d);x.setMonth(x.getMonth()+m);return x};
+const fmt=(d,y)=>d.getDate()+' '+MON[d.getMonth()]+(y?' '+d.getFullYear():'');
+const delivery=()=>S.date!==null?DATES[S.date]:DATES[0];
+
+function guide(n){const el=$('g'+n);if(el)el.classList.add('done')}
+
+function render(){
+  const m=S.months, till=addM(delivery(),m);
+  document.querySelectorAll('.mVal').forEach(e=>e.textContent=m+' months');
+  document.querySelectorAll('.mTxt').forEach(e=>e.textContent=m+' months');
+  document.querySelectorAll('.mMinus').forEach(b=>b.disabled=m<=3);
+  document.querySelectorAll('.tillShort').forEach(e=>e.textContent='till '+fmt(till));
+  document.querySelectorAll('.tillLong').forEach(e=>e.textContent='till '+fmt(till,true));
+  $('pdpTill').textContent='Till '+fmt(addM(DATES[0],m),true);
+  // pdp bar
+  $('pdpToday').textContent=inr(today());
+  $('pdpTodayL').textContent=S.chair?'to start · 2 items':'to start today';
+  $('pdpBtn').textContent=S.chair?'Go to cart':'Add to cart';
+  const add=$('pdpAdd');add.textContent=S.chair?'ADDED ✓':'ADD';add.classList.toggle('on',S.chair);
+  const badge=$('cartBadge');const items=1+(S.chair?1:0);badge.hidden=!S.carted;badge.textContent=items;
+  // cart
+  $('cartCount').textContent=items+(items>1?' items':' item');
+  $('cartChair').hidden=!S.chair;$('cartSuggest').hidden=S.chair;
+  $('cartToday').textContent=inr(today());$('cartTodayBar').textContent=inr(today());
+  $('cartMonthly').textContent=inr(rent())+'/mo';
+  const spent=rent()+DEL;$('spA').style.flex=spent;$('spB').style.flex=dep();
+  // review
+  const d=delivery();
+  $('rvDate').textContent=DAYS[d.getDay()]+', '+fmt(d)+' · '+S.slot;
+  $('rvDateSub').textContent=(S.chair?'Both items, one trip · ':'')+'Sector 45, Gurugram';
+  $('rvItems').innerHTML=itemRow('Study desk with side drawer',DESKSVG,m,till)+(S.chair?itemRow('Work chair',CHAIRSVG,m,till):'');
+  $('rvToday').textContent=inr(today());$('rvTodayBar').textContent=inr(today());
+  $('rvDep').textContent=inr(dep())+' is deposit. You get it back.';
+  $('bRent').textContent=inr(rent());$('bDep').textContent=inr(dep());
+  const from=addM(d,1);
+  $('rvFrom').textContent='From '+fmt(from);
+  $('rvFromSub').textContent='Auto-charged · '+(m-1)+' more months';
+  $('rvMonthly').textContent=inr(rent())+'/mo';
+  $('payBtn').innerHTML='Pay '+inr(today())+' '+ARROW;
+  // done
+  $('doneSub').textContent='Arriving '+DAYS[d.getDay()]+', '+fmt(d)+' · '+S.slot;
+  $('dToday').textContent=inr(today());
+  $('dFrom').textContent=inr(rent())+' every month from '+fmt(from);
+  $('dBack').textContent=inr(dep())+' back after you return';
+  $('dateSub').textContent=(S.chair?'Desk + chair arrive together. ':'')+'Earliest is 5 days from today.';
+}
+const DESKSVG='<svg width="28" height="28" viewBox="0 0 32 32" fill="none"><rect x="3" y="11" width="26" height="2.6" rx="1" fill="#8B6B4E"/><rect x="5" y="13.6" width="2" height="12" fill="#5C4634"/><rect x="25" y="13.6" width="2" height="12" fill="#5C4634"/><rect x="17.5" y="13.6" width="7" height="4.6" rx=".8" fill="#A3876C"/><rect x="7" y="7" width="5" height="4" rx=".6" fill="#4A36B3"/></svg>';
+const CHAIRSVG='<svg width="28" height="28" viewBox="0 0 32 32" fill="none"><rect x="10" y="3" width="12" height="13" rx="3" fill="#3A27A0"/><rect x="8" y="17" width="16" height="4" rx="2" fill="#4A36B3"/><rect x="15" y="21" width="2" height="6" fill="#302F30"/><rect x="9" y="27" width="14" height="2" rx="1" fill="#302F30"/></svg>';
+const ARROW='<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+function itemRow(n,svg,m,till){return `<div class="row"><span class="thumb" style="width:40px;height:40px;border-radius:10px">${svg}</span><div class="grow"><div class="t1">${n}</div><div class="csm">${m} months · till ${fmt(till)}</div></div></div>`}
+
+function setMonths(d){S.months=Math.max(3,Math.min(24,S.months+d));render();guide(1)}
+function toggleChair(){S.chair=!S.chair;$('cartToast').hidden=!S.chair;render();if(S.chair)guide(2)}
+function faq(b){b.parentElement.classList.toggle('open')}
+function sheet(on){$('scrim').classList.toggle('on',on);$('sheet').classList.toggle('on',on)}
+function slot(b){document.querySelectorAll('.slot').forEach(s=>s.classList.remove('sel'));b.classList.add('sel');S.slot=b.textContent;render()}
+function toggleBill(){S.bill=!S.bill;$('bill').classList.toggle('open',S.bill);$('billBtn').firstElementChild.textContent=S.bill?'Hide bill details':'View bill details';$('billBtn').setAttribute('aria-expanded',S.bill);$('billChev').style.transform=S.bill?'rotate(180deg)':'';if(S.bill)guide(4)}
+
+function renderDates(){
+  const g=$('dates');g.innerHTML='';
+  DATES.forEach((d,i)=>{const b=document.createElement('button');const isFull=i===0&&S.full;
+    b.className='date'+(isFull?' full':'')+(S.date===i?' sel':'');
+    const state=isFull?'Full':S.date===i?'Selected':'Free';
+    b.innerHTML=`<small>${DAYS[d.getDay()]}</small><b>${fmt(d)}</b><em>${state}</em>`;
+    b.setAttribute('aria-label',DAYS[d.getDay()]+' '+fmt(d)+', '+state);
+    if(isFull){b.disabled=true}
+    b.onclick=()=>pickDate(i);g.appendChild(b)});
+  const btn=$('dateBtn'),wk=$('week');
+  if(S.date===null){btn.disabled=true;btn.textContent='Pick a day';wk.textContent='Pick a day to continue';wk.style.color='var(--mut)'}
+  else{const d=DATES[S.date];btn.disabled=false;btn.textContent='Continue with '+DAYS[d.getDay()]+', '+fmt(d);
+    const ok=d<=WEEK_END;wk.textContent=ok?'Still within your first week ✓':'This is after your first week';wk.style.color=ok?'var(--ok)':'var(--amber)'}
+}
+function pickDate(i){
+  if(i===0&&!S.full){S.full=true;S.date=1;$('err').classList.add('show');guide(3)}
+  else S.date=i;
+  renderDates();render();
+}
+
+const ORDER=['pdp','cart','date','review','paying','done'];
+let cur='pdp';
+function go(name){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.add('hidden'));
+  const s=$('s-'+name);s.classList.remove('hidden');
+  const sc=s.querySelector('.scroll');if(sc&&name!==cur)sc.scrollTop=0;
+  cur=name;if(name==='date')renderDates();render();
+}
+function toCart(fromBtn){if(fromBtn)S.carted=true;go('cart')}
+function pay(){go('paying');setTimeout(()=>go('done'),1400)}
+function reset(){Object.assign(S,{carted:false,months:3,chair:false,date:null,slot:'9am – 1pm',full:false,bill:false});
+  $('cartToast').hidden=true;$('err').classList.remove('show');$('bill').classList.remove('open');
+  $('billBtn').firstElementChild.textContent='View bill details';$('billChev').style.transform='';
+  document.querySelectorAll('.slot').forEach((s,i)=>s.classList.toggle('sel',i===0));
+  document.querySelectorAll('.faq').forEach(f=>f.classList.remove('open'));
+  document.querySelectorAll('.try li').forEach(l=>l.classList.remove('done'));
+  sheet(false);go('pdp');$('pdpScroll').scrollTop=0;}
+
+// gallery swipe + dots
+(function(){const sl=$('slides'),dots=[...document.querySelectorAll('#dots i')];let i=0,x0=null;
+ const set=n=>{i=(n+dots.length)%dots.length;sl.style.transform=`translateX(${-i*100}%)`;dots.forEach((d,k)=>d.classList.toggle('on',k===i))};
+ dots.forEach((d,k)=>d.onclick=()=>set(k));
+ sl.addEventListener('touchstart',e=>x0=e.touches[0].clientX,{passive:true});
+ sl.addEventListener('touchend',e=>{if(x0===null)return;const dx=e.changedTouches[0].clientX-x0;if(Math.abs(dx)>40)set(i+(dx<0?1:-1));x0=null});
+ sl.addEventListener('click',()=>set(i+1));
+})();
+render();
+</script>
+</body>
+</html>
