@@ -260,7 +260,7 @@ a{color:var(--p);text-decoration:none}
             <div class="strip">
               <div><span class="iconc"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="6" width="18" height="13" rx="2.5" stroke="#4A36B3" stroke-width="1.8"/><path d="M3 10h18" stroke="#4A36B3" stroke-width="1.8"/><circle cx="16.5" cy="14.5" r="1.3" fill="#4A36B3"/></svg></span><span><b>Pay to start</b><span class="csm">Rent + deposit</span></span></div>
               <div><span class="iconc"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3.5" y="5" width="17" height="15" rx="2.5" stroke="#4A36B3" stroke-width="1.8"/><path d="M3.5 10h17M8 3v4M16 3v4" stroke="#4A36B3" stroke-width="1.8" stroke-linecap="round"/></svg></span><span><b>Monthly rent</b><span class="csm">From month 2</span></span></div>
-              <div><span class="iconc" style="background:var(--okt)"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 12a9 9 0 1 0 2.6-6.4" stroke="#0F6B46" stroke-width="1.8" stroke-linecap="round"/><path d="M3 4v5h5" stroke="#0F6B46" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span><b>Deposit back</b><span class="csm">After return</span></span></div>
+              <div><span class="iconc" style="background:var(--okt)"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 12a9 9 0 1 0 2.6-6.4" stroke="#0F6B46" stroke-width="1.8" stroke-linecap="round"/><path d="M3 4v5h5" stroke="#0F6B46" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span><b>Refundable deposit</b><span class="csm">After a check</span></span></div>
             </div>
           </div>
           <div class="card">
@@ -296,7 +296,7 @@ a{color:var(--p);text-decoration:none}
           </div>
           <div class="card" style="gap:0">
             <div class="ch" style="padding-bottom:4px"><h3>Good to know</h3></div>
-            <div class="faq"><button onclick="faq(this)">When do I get my deposit back?<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="#7A7A82" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><p>After you return the items, we do a quick damage check. Once it's done, your full deposit comes back.</p></div>
+            <div class="faq"><button onclick="faq(this)">When do I get my deposit back?<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="#7A7A82" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><p>After you return the items, we do a quick damage check. Your refund depends on it: if there's no damage, you get the full deposit back. If there is, the repair cost is taken out first.</p></div>
             <div class="faq"><button onclick="faq(this)">Can I extend after 3 months?<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="#7A7A82" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><p>Yes. Same price every month, no matter how long you keep it.</p></div>
             <div class="faq"><button onclick="faq(this)">What does the damage check cover?<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="#7A7A82" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><p>We check the items when we pick them up. In this prototype, the rules of the check are fictional.</p></div>
             <div class="faq"><button onclick="faq(this)">What if I return it early?<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="#7A7A82" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><p>3 months is the minimum rental period, so plan for at least that.</p></div>
@@ -355,7 +355,7 @@ a{color:var(--p);text-decoration:none}
           <div class="row between"><div><h3>Pay today</h3><div class="csm">Rent, deposit & delivery</div></div><span class="amt" id="cartToday">₹1,797</span></div>
           <div style="display:flex;flex-direction:column;gap:6px">
             <div class="split"><i id="spA" style="flex:44;background:var(--p)"></i><i id="spB" style="flex:56;background:var(--ok)"></i></div>
-            <div class="legend"><span>Rent + delivery</span><b>Deposit · comes back</b></div>
+            <div class="legend"><span>Rent + delivery</span><b>Deposit · refundable after check</b></div>
           </div>
           <div class="div"></div>
           <div class="row between"><span class="t2">Then every month</span><span class="t1" id="cartMonthly">₹499/mo</span></div>
@@ -414,7 +414,7 @@ a{color:var(--p);text-decoration:none}
         <div class="card" id="rvItems"></div>
         <div class="card hl pay">
           <div class="row between"><div><h3>Pay today</h3><div class="csm">Rent, deposit & delivery</div></div><span class="amt" id="rvToday">₹2,995</span></div>
-          <div class="depnote"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M3 12a9 9 0 1 0 2.6-6.4" stroke="#0F6B46" stroke-width="2" stroke-linecap="round"/><path d="M3 4v5h5" stroke="#0F6B46" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span id="rvDep">₹1,798 is deposit. You get it back.</span></div>
+          <div class="depnote"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M3 12a9 9 0 1 0 2.6-6.4" stroke="#0F6B46" stroke-width="2" stroke-linecap="round"/><path d="M3 4v5h5" stroke="#0F6B46" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span id="rvDep">₹1,798 is a refundable deposit, subject to a damage check when you return.</span></div>
           <div class="bill" id="bill">
             <div class="row between"><span class="row" style="gap:6px"><span class="cap">First month rent</span><span class="pill pM">Monthly</span></span><span class="t1" id="bRent">₹898</span></div>
             <div class="row between"><span class="row" style="gap:6px"><span class="cap">Deposits</span><span class="pill pR">Refundable</span></span><span class="t1" id="bDep">₹1,798</span></div>
@@ -425,7 +425,7 @@ a{color:var(--p);text-decoration:none}
         <div class="card">
           <div class="t1">After today</div>
           <div class="step"><span class="dot" style="background:var(--p)"></span><div class="grow"><div class="t2" style="color:var(--tx)" id="rvFrom">From 27 Dec</div><div class="csm" id="rvFromSub">Auto-charged · 2 more months</div></div><span class="t1" id="rvMonthly">₹898/mo</span></div>
-          <div class="step"><span class="dot" style="background:var(--ok)"></span><div class="grow"><div class="t2" style="color:var(--tx)">When you return</div><div class="csm">After a quick damage check</div></div><span class="t1" style="color:var(--ok)">Deposit back</span></div>
+          <div class="step"><span class="dot" style="background:var(--ok)"></span><div class="grow"><div class="t2" style="color:var(--tx)">When you return</div><div class="csm">Refund depends on a damage check</div></div><span class="t1" style="color:var(--ok)">Deposit refund</span></div>
         </div>
       </div></div>
       <div class="bar">
@@ -451,7 +451,7 @@ a{color:var(--p);text-decoration:none}
         <div class="card">
           <div class="row between"><span class="t2">Paid today</span><span class="t1" id="dToday">₹2,995</span></div>
           <div class="row between"><span class="t2" id="dFrom">₹898 every month from 27 Dec</span><span class="pill pM">Monthly</span></div>
-          <div class="row between"><span class="t2" id="dBack">₹1,798 back after you return</span><span class="pill pR">Refundable</span></div>
+          <div class="row between"><span class="t2" id="dBack">Up to ₹1,798 back after check</span><span class="pill pR">Refundable</span></div>
         </div>
         <div class="note" style="text-align:center">We'll remind you 3 days before every rent date.</div>
       </div></div>
@@ -505,7 +505,7 @@ function render(){
   $('rvDateSub').textContent=(S.chair?'Both items, one trip · ':'')+'Sector 45, Gurugram';
   $('rvItems').innerHTML=itemRow('Study desk with side drawer',DESKSVG,m,till)+(S.chair?itemRow('Work chair',CHAIRSVG,m,till):'');
   $('rvToday').textContent=inr(today());$('rvTodayBar').textContent=inr(today());
-  $('rvDep').textContent=inr(dep())+' is deposit. You get it back.';
+  $('rvDep').textContent=inr(dep())+' is a refundable deposit, subject to a damage check when you return.';
   $('bRent').textContent=inr(rent());$('bDep').textContent=inr(dep());
   const from=addM(d,1);
   $('rvFrom').textContent='From '+fmt(from);
@@ -516,7 +516,7 @@ function render(){
   $('doneSub').textContent='Arriving '+DAYS[d.getDay()]+', '+fmt(d)+' · '+S.slot;
   $('dToday').textContent=inr(today());
   $('dFrom').textContent=inr(rent())+' every month from '+fmt(from);
-  $('dBack').textContent=inr(dep())+' back after you return';
+  $('dBack').textContent='Up to '+inr(dep())+' back after check';
   $('dateSub').textContent=(S.chair?'Desk + chair arrive together. ':'')+'Earliest is 5 days from today.';
 }
 const DESKSVG='<svg width="28" height="28" viewBox="0 0 32 32" fill="none"><rect x="3" y="11" width="26" height="2.6" rx="1" fill="#8B6B4E"/><rect x="5" y="13.6" width="2" height="12" fill="#5C4634"/><rect x="25" y="13.6" width="2" height="12" fill="#5C4634"/><rect x="17.5" y="13.6" width="7" height="4.6" rx=".8" fill="#A3876C"/><rect x="7" y="7" width="5" height="4" rx=".6" fill="#4A36B3"/></svg>';
